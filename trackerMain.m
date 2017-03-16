@@ -200,25 +200,27 @@ function [results] = trackerMain(p, im, bg_area, fg_area, area_resize_factor)
 
         %% VISUALIZATION
         if p.visualization == 1
-            if isToolboxAvailable('Computer Vision System Toolbox')
-                im = insertShape(im, 'Rectangle', rect_position, 'LineWidth', 4, 'Color', 'black');
-                im = insertShape(im, 'Rectangle', rect_position_padded, 'LineWidth', 4, 'Color', 'yellow');
-                % Display the annotated video frame using the video player object.
-                step(p.videoPlayer, im);
-            else
+%             if isToolboxAvailable('Computer Vision System Toolbox')
+%                 im = insertShape(im, 'Rectangle', rect_position, 'LineWidth', 4, 'Color', 'black');
+%                 im = insertShape(im, 'Rectangle', rect_position_padded, 'LineWidth', 4, 'Color', 'yellow');
+%                 % Display the annotated video frame using the video player object.
+%                 step(p.videoPlayer, im);
+%             else
                 figure(1)
                 imshow(im)
                 rectangle('Position',rect_position, 'LineWidth',2, 'EdgeColor','g');
                 rectangle('Position',rect_position_padded, 'LineWidth',2, 'LineStyle','--', 'EdgeColor','b');
                 drawnow
-            end
+%             end
         end
     end
     elapsed_time = toc;
     % save data for OTB-13 benchmark
     results.type = 'rect';
     results.res = OTB_rect_positions;
-    results.fps = num_frames/(elapsed_time - t_imread);
+    %results.fps = num_frames/(elapsed_time - t_imread);
+    results.fps = num_frames/(elapsed_time);
+    disp(results.fps);
 end
 
 % Reimplementation of Hann window (in case signal processing toolbox is missing)
